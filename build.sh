@@ -1,6 +1,5 @@
 #!/bin/bash
 #
-# idk lmao
 
 export maindir="$(pwd)"
 export outside="${maindir}/.."

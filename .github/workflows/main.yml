@@ -20,11 +20,11 @@ on: # [push]
       KREPO:
         description: 'kernel repo'
         required: true
-        default: 'https://github.com/Sakurajima07/kernel_xiaomi_blossom'
+        default: 'https://github.com/Sakurajima07/linux-mt6765'
       KBRANCH:
         description: 'kernel branch'
         required: true
-        default: 'reveal'
+        default: 'master'
       NOTES:
         description: 'notes to print out'
         required: false
