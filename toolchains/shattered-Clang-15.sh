@@ -18,7 +18,7 @@ case $1 in
   "build" )
     export PATH="${dir}/bin:/usr/bin:${PATH}"
     git submodule update --init --recursive
-    make -j$NJOBS O=out CC=clang LD=ld.lld ARCH=arm64 SUBARCH=arm64 $2
+    make -j$NJOBS O=out CC=clang LD=ld.lld ARCH=arm64 SUBARCH=arm64 mt6765_defconfig
     make -j$NJOBS O=out Image.gz dtbs \
       CROSS_COMPILE="aarch64-linux-gnu-" \
       CROSS_COMPILE_ARM32="arm-linux-gnueabi-" \
