@@ -10,7 +10,7 @@ case $1 in
     # Clone compiler
     if [[ ! -d "${dir}" ]]; then
       mkdir ${dir} && cd ${dir}
-      apt install clang llvm gcc -y
+      dnf install clang llvm gcc -y
     fi
   ;;
 
