@@ -1,0 +1,41 @@
+#!/bin/bash
+
+maindir="$(pwd)"
+outside="${maindir}/.."
+
+dir="${outside}/new_clang"
+
+case $1 in
+  "setup" )
+    # Clone compiler
+    if [[ ! -d "${dir}" ]]; then
+      mkdir ${dir} && cd ${dir}
+      apt install clang llvm gcc -y
+    fi
+  ;;
+
+  "build" )
+    export PATH="${dir}/bin:/usr/bin:${PATH}"
+    git submodule update --init --recursive
+    make -j$NJOBS O=out CC=clang LD=ld.lld ARCH=arm64 SUBARCH=arm64 mt6765_defconfig
+    make -j$NJOBS O=out Image.gz dtbs \
+      CROSS_COMPILE="aarch64-linux-gnu-" \
+      CROSS_COMPILE_ARM32="arm-linux-gnueabi-" \
+      CROSS_COMPILE_COMPAT="arm-linux-gnueabi-" \
+      CC=clang \
+      LD=ld.lld \
+      NM=llvm-nm \
+      AR=llvm-ar \
+      STRIP=llvm-strip \
+      OBJCOPY=llvm-objcopy \
+      OBJDUMP=llvm-objdump \
+      READELF=llvm-readelf \
+      LLVM_IAS=1 \
+      HOSTCC=clang \
+      HOSTCXX=clang++ \
+      HOSTLD=ld.lld \
+      HOSTAR=llvm-ar \
+      2>&1 | tee ${CUR_TOOLCHAIN}.log
+    sh ${outside}/ver_toolchain.sh clang ld.lld > ${CUR_TOOLCHAIN}.info
+  ;;
+esac
